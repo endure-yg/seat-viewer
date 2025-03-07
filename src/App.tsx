@@ -55,7 +55,7 @@ const CsvUploader: React.FC = () => {
 
   return (
     <div>
-      <h1>CSV File Upload</h1>
+      <h1>2025 Youth Gathering Seat Viewer</h1>
 
       {/* File input */}
       <input type="file" accept=".csv" onChange={handleFileUpload} />
