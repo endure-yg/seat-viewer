@@ -21,7 +21,7 @@ export const App = () => {
     <ThemeProvider theme={darkTheme}>
       <Box sx={{ display: "flex", flexDirection: "column", height: "100vh" }}>
         <AppMenu />
-        <Box sx={{ display: "flex", flex: 1 }}>
+        <Box sx={{ display: "flex", flex: 1, overflow: "scroll" }}>
           <AppRouter />
         </Box>
       </Box>

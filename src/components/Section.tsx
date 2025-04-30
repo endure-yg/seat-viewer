@@ -1,8 +1,8 @@
 import { Box, Button, Divider, TextField, Typography } from "@mui/material";
-import { SectionLayout } from "./SectionLayout";
 import { useCallback, useState } from "react";
-import { SectionInfo } from "../types/SectionInfo";
 import { sectionLayouts } from "../data/sectionLayouts";
+import { SectionInfo } from "../types/SectionInfo";
+import { SectionLayout } from "./SectionLayout";
 
 export const Section = () => {
   const [sectionNumber, setSectionNumber] = useState("");

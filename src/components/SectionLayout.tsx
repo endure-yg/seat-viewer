@@ -19,7 +19,7 @@ export const SectionLayout = ({
     <Box display="flex" flexDirection="column" gap={1}>
       <Typography variant="h4">Section {sectionNumber}</Typography>
       {seats.map((row, rowIndex) => (
-        <Box key={rowIndex} display="flex" alignItems="center" gap={1}>
+        <Box key={`row-${rowIndex}`} display="flex" alignItems="center" gap={1}>
           {/* Row Label (A, B, C, ...) */}
           <Typography width={20}>
             {minRow + seats.length - rowIndex - 1}
@@ -36,7 +36,10 @@ export const SectionLayout = ({
               const seatNum = colIndex + minSeat;
               const seatNumber = `Row ${rowNum}, Seat ${seatNum}`;
               return seat === 1 ? (
-                <Tooltip title={`${seatNumber}`} key={colIndex + minSeat}>
+                <Tooltip
+                  title={`${seatNumber}`}
+                  key={`colLabel-${colIndex + minSeat}`}
+                >
                   <Box
                     sx={{
                       width: 30,
@@ -51,7 +54,7 @@ export const SectionLayout = ({
                   />
                 </Tooltip>
               ) : (
-                <Box key={colIndex} sx={{ width: 30, height: 30 }} />
+                <Box key={`col-${colIndex}`} sx={{ width: 30, height: 30 }} />
               );
             })}
           </Box>
