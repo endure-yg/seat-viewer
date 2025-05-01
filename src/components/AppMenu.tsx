@@ -45,11 +45,19 @@ export const AppMenu = () => {
           </ListItemButton>
         </ListItem>
         <ListItem disablePadding>
+          <ListItemButton component={NavLink} to="/assignments" end>
+            <ListItemIcon>
+              <EventSeatIcon />
+            </ListItemIcon>
+            <ListItemText primary="Visual Seat Assignments" />
+          </ListItemButton>
+        </ListItem>
+        <ListItem disablePadding>
           <ListItemButton component={NavLink} to="/section" end>
             <ListItemIcon>
               <EventSeatIcon />
             </ListItemIcon>
-            <ListItemText primary="Section Lookup" />
+            <ListItemText primary="Admin Section Lookup" />
           </ListItemButton>
         </ListItem>
       </List>

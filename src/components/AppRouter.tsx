@@ -9,6 +9,7 @@ export const AppRouter = () => {
     <Routes>
       <Route index element={<Homepage />} />
       <Route path="congregation" element={<Congregation />} />
+      <Route path="assignments" element={<Section />} />
       <Route path="section" element={<Section />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
