@@ -1,7 +1,16 @@
-export type Seat = {
+export type SeatLocation = {
+  section: string;
+  row: number;
+  seat: number;
+};
+
+export type SeatInfo = {
+  date: string;
+  seats: SeatLocation[];
+};
+
+export type GroupInfo = {
   congregationId: string;
   congregationName: string;
-  date: string;
-  section: string;
-  seat: number;
+  seats: SeatInfo[];
 };

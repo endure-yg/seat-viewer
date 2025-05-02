@@ -1,6 +1,6 @@
 import { Box, Button, Divider, TextField, Typography } from "@mui/material";
 import { useCallback, useState } from "react";
-import { sectionLayouts } from "../data/sectionLayouts";
+import { sectionLayouts } from "../data/sectionLayouts_0_1_2_3_4";
 import { SectionInfo } from "../types/SectionInfo";
 import { SectionLayout } from "./SectionLayout";
 

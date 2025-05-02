@@ -18,6 +18,7 @@ import { seats } from "../data/seats";
 type Result = {
   congregationName: string;
   date: string;
+  section: string;
   seatsFormatted: string[];
 };
 
@@ -27,45 +28,46 @@ export const Congregation = () => {
   const [hasSearched, setHasSearched] = useState(false);
 
   const search = useCallback(() => {
-    const filteredSeats = seats.filter(
+    const congregationSeating = seats.find(
       (s) => s.congregationId === congregationId
     );
-    const results: Result[] = Object.values(
-      filteredSeats.reduce((acc, seat) => {
-        const key = seat.date;
-        if (!acc[key]) {
-          acc[key] = {
-            congregationName: seat.congregationName,
-            date: seat.date,
-            sections: {} as Record<string, number[]>,
-          };
-        }
-        if (!acc[key].sections[seat.section]) {
-          acc[key].sections[seat.section] = [];
-        }
-        acc[key].sections[seat.section].push(seat.seat);
-        return acc;
-      }, {} as Record<string, { congregationName: string; date: string; sections: Record<string, number[]> }>)
-    ).map((group) => {
-      const seatsFormatted = Object.entries(group.sections).map(
-        ([section, seats]) => {
-          const sortedSeats = seats.sort((a, b) => a - b);
-          const seatRange =
-            sortedSeats.length > 1
-              ? `${sortedSeats[0]}-${sortedSeats[sortedSeats.length - 1]}`
-              : `${sortedSeats[0]}`;
-          return `Section ${section}, Seats ${seatRange}`;
-        }
-      );
+    if (!congregationSeating) {
+      setResults([]);
+    } else {
+      const { seats = [], congregationName } = congregationSeating;
+      const formattedSeatData: Result[] = [];
 
-      return {
-        congregationName: group.congregationName,
-        date: group.date,
-        seatsFormatted,
-      };
-    });
+      seats.forEach(({ date, seats }) => {
+        // Group by row
+        const rowMap = new Map<number, number[]>();
+        let section = seats[0]?.section || "";
+
+        seats.forEach(({ row, seat, section: seatSection }) => {
+          section = seatSection; // assume same section per seatInfo
+          if (!rowMap.has(row)) {
+            rowMap.set(row, []);
+          }
+          rowMap.get(row)!.push(seat);
+        });
+
+        const seatsFormatted = Array.from(rowMap.entries()).map(
+          ([row, seatNumbers]) => {
+            const sorted = seatNumbers.sort((a, b) => a - b);
+            const range = `${sorted[0]}-${sorted[sorted.length - 1]}`;
+            return `Row ${row}, seats ${range}`;
+          }
+        );
+
+        formattedSeatData.push({
+          congregationName,
+          date,
+          section,
+          seatsFormatted,
+        });
+      });
+      setResults(formattedSeatData);
+    }
     setHasSearched(true);
-    setResults(results);
   }, [congregationId]);
 
   return (
@@ -117,6 +119,7 @@ export const Congregation = () => {
                           {seat.date}
                         </TableCell>
                         <TableCell align="right">
+                          Section {seat.section}
                           {seat.seatsFormatted.map((s) => (
                             <div key={s}>{s}</div>
                           ))}

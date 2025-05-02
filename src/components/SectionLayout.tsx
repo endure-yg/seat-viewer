@@ -21,7 +21,7 @@ const seatTypeLabels: { [key: number]: string } = {
   2: "ADA",
   3: "ADA Retractable",
   4: "Retractable",
-  5: "NO USE DURING WORSHIP",
+  5: "Not Used During Wednesday Worship",
 };
 
 export const SectionLayout = ({
@@ -55,7 +55,6 @@ export const SectionLayout = ({
                 seat > 1
                   ? `${seatNumber} (${seatTypeLabels[seat]})`
                   : seatNumber;
-              //console.log(`Row: ${rowNum}, Col: ${seatNum}`);
 
               return seat !== 0 ? (
                 <Tooltip title={tooltipTitle} key={seatNumber + "_TT"}>
