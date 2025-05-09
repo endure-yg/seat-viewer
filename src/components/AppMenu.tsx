@@ -41,7 +41,7 @@ export const AppMenu = () => {
             <ListItemIcon>
               <ChurchIcon />
             </ListItemIcon>
-            <ListItemText primary="Congregation Lookup" />
+            <ListItemText primary="Seat Assignments by Congregation" />
           </ListItemButton>
         </ListItem>
         <ListItem disablePadding>
@@ -49,7 +49,7 @@ export const AppMenu = () => {
             <ListItemIcon>
               <EventSeatIcon />
             </ListItemIcon>
-            <ListItemText primary="Visual Seat Assignments" />
+            <ListItemText primary="Seat Assignments by Section" />
           </ListItemButton>
         </ListItem>
         <ListItem disablePadding>
@@ -57,7 +57,7 @@ export const AppMenu = () => {
             <ListItemIcon>
               <EventSeatIcon />
             </ListItemIcon>
-            <ListItemText primary="Admin Section Lookup" />
+            <ListItemText primary="Sections with Seat Types" />
           </ListItemButton>
         </ListItem>
       </List>

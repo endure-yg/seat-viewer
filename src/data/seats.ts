@@ -21,14 +21,14 @@ export const seats: GroupInfo[] = [
       {
         date: "Sunday, July 21, 2025",
         seats: [
-          { section: "247", row: 1, seat: 1 },
           { section: "247", row: 1, seat: 2 },
           { section: "247", row: 1, seat: 3 },
           { section: "247", row: 1, seat: 4 },
-          { section: "247", row: 2, seat: 1 },
+          { section: "247", row: 1, seat: 5 },
           { section: "247", row: 2, seat: 2 },
           { section: "247", row: 2, seat: 3 },
           { section: "247", row: 2, seat: 4 },
+          { section: "247", row: 2, seat: 5 },
         ],
       },
     ],
@@ -43,6 +43,14 @@ export const seats: GroupInfo[] = [
           { section: "261", row: 3, seat: 5 },
           { section: "261", row: 3, seat: 6 },
           { section: "261", row: 3, seat: 7 },
+        ],
+      },
+      {
+        date: "Sunday, July 21, 2025",
+        seats: [
+          { section: "247", row: 3, seat: 8 },
+          { section: "247", row: 3, seat: 9 },
+          { section: "247", row: 3, seat: 10 },
         ],
       },
     ],

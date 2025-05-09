@@ -119,7 +119,7 @@ export const Congregation = () => {
                           {seat.date}
                         </TableCell>
                         <TableCell align="right">
-                          Section {seat.section}
+                          <strong> Section {seat.section} </strong>
                           {seat.seatsFormatted.map((s) => (
                             <div key={s}>{s}</div>
                           ))}

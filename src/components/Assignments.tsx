@@ -1,10 +1,13 @@
 import { Box, Tooltip, Typography } from "@mui/material";
+import { findSeatAssignment } from "./HelperFunctions"
 
 type SectionLayoutProps = {
   seats: number[][];
   sectionNumber: string;
+  date: string;
   minRow: number;
   minSeat: number;
+  seatColors: Record<string, string>;
 };
 
 // Hex color mapping for seat types
@@ -27,15 +30,16 @@ const seatTypeLabels: { [key: number]: string } = {
 export const SectionLayout = ({
   seats,
   sectionNumber,
+  date,
   minRow,
   minSeat,
+  seatColors
 }: SectionLayoutProps) => {
   const columns = seats[0].length;
 
   return (
     <Box display="flex" flexDirection="column" gap={1}>
       <Typography variant="h4">Section {sectionNumber}</Typography>
-     
       {seats.map((row, rowIndex) => (
         <Box key={rowIndex} display="flex" alignItems="center" gap={1}>
           <Typography width={20}>
@@ -51,12 +55,25 @@ export const SectionLayout = ({
               const rowNum = minRow + seats.length - rowIndex - 1;
               const seatNum = colIndex + minSeat;
               const seatNumber = `Row ${rowNum}, Seat ${seatNum}`;
-              const color = seatColors[seat];
-              const tooltipTitle =
+              let tooltipTitle =
                 seat > 1
                   ? `${seatNumber} (${seatTypeLabels[seat]})`
                   : seatNumber;
 
+              //const color = seatColors[seatNum];
+              const cong = findSeatAssignment(date, sectionNumber, rowNum, seatNum)[0];
+              let color: string;
+              if (cong) {
+                console.log(cong);
+                color = seatColors[cong.congregationId];
+                tooltipTitle = `Cong ID: ${cong.congregationId} - ${cong.congregationName} - ${tooltipTitle}`;
+
+              }
+              else {
+                color = "#757575"
+              }
+              
+              
               return seat !== 0 ? (
                 <Tooltip title={tooltipTitle} key={seatNumber + "_TT"}>
                   <Box

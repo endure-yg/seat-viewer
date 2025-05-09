@@ -3,6 +3,7 @@ import { useCallback, useState } from "react";
 import { sectionLayouts } from "../data/sectionLayouts_0_1_2_3_4";
 import { SectionInfo } from "../types/SectionInfo";
 import { SectionLayout } from "./SectionLayout";
+import { Link } from '@mui/material';
 
 export const Section = () => {
   const [sectionNumber, setSectionNumber] = useState("");
@@ -29,6 +30,8 @@ export const Section = () => {
       }}
     >
       <Typography variant="h4">Section Lookup</Typography>
+      <Typography><strong>Important note: </strong>Some seat locations are not accurately displayed in this visual due to deviations in numbering or section shape. 
+      Please use  <Link href="https://3ddigitalvenue.com/3dmap/clients/saints/">this website</Link> for an accurate depiction of seat locations (sections that start with "F" are not in the linked website).</Typography>
       <TextField
         id="section-number"
         label="Section Number"
