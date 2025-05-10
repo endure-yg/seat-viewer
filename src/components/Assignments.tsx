@@ -1,5 +1,6 @@
-import { Box, Tooltip, Typography } from "@mui/material";
+import { Box, Divider, Tooltip, Typography } from "@mui/material";
 import { findSeatAssignment } from "./HelperFunctions"
+import { AssignmentsTable } from "./AssignmentTable"; 
 
 type SectionLayoutProps = {
   seats: number[][];
@@ -64,7 +65,6 @@ export const SectionLayout = ({
               const cong = findSeatAssignment(date, sectionNumber, rowNum, seatNum)[0];
               let color: string;
               if (cong) {
-                console.log(cong);
                 color = seatColors[cong.congregationId];
                 tooltipTitle = `Cong ID: ${cong.congregationId} - ${cong.congregationName} - ${tooltipTitle}`;
 
@@ -100,6 +100,13 @@ export const SectionLayout = ({
       <Typography align="center" variant="h6">
         Front of Section
       </Typography>
+
+    <Divider/>
+    <AssignmentsTable
+              section={sectionNumber}
+              date={date}
+          />
     </Box>
+    
   );
 };

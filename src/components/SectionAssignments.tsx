@@ -115,9 +115,11 @@ export const SectionAssignments = () => {
               minSeat={result.minSeat}
               seatColors={seatColors}
             />
+            
           ) : (
             <Typography>Section not found or section not used.</Typography>
           )}
+        
         </Box>
       ) : null}
     </Box>
