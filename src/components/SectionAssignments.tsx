@@ -1,22 +1,52 @@
-import { Box, Button, Divider, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Divider,
+  TextField,
+  Typography,
+  IconButton,
+  InputAdornment,
+  OutlinedInput,
+} from "@mui/material";
 import { Select, MenuItem, InputLabel, FormControl } from "@mui/material";
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { sectionLayouts } from "../data/sectionLayouts_0_1_2_3_4";
 import { SectionInfo } from "../types/SectionInfo";
 import { SectionLayout } from "./Assignments";
 import { generateColorFromCongId } from "./ColorGenerator";
-import { getCongregationIdsInSection } from "./HelperFunctions"
+import { getCongregationIdsInSection } from "./HelperFunctions";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 export const SectionAssignments = () => {
+  const PASSWORD_HASH =
+    "cbac75f301ac40be82c4fbb6b1ed3a9950bf785db3f08428599f3050d136fcc5";
   const [sectionNumber, setSectionNumber] = useState("");
   const [result, setResult] = useState<SectionInfo>();
   const [hasSearched, setHasSearched] = useState(false);
   const [selectedDate, setSelectedDate] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [password, setPassword] = useState("");
+  const [accessGranted, setAccessGranted] = useState(false);
+  const [congIds, setCongIds] = useState<string[]>([]);
+  const seats = useMemo<number[][]>(
+    () => [...(result?.seats ?? [])].reverse(),
+    [result?.seats]
+  );
 
-  const congIds = getCongregationIdsInSection(selectedDate, sectionNumber);
+  const handleTogglePasswordVisibility = () => {
+    setShowPassword((prev) => !prev);
+  };
 
-  const seatColors: Record<string, string> = Object.fromEntries(
-    congIds.map((id) => [String(id), generateColorFromCongId(String(id))])
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(event.target.value);
+  };
+
+  const seatColors = useMemo<Record<string, string>>(
+    () =>
+      Object.fromEntries(
+        congIds.map((id) => [id, generateColorFromCongId(id)])
+      ),
+    [congIds]
   );
 
   const search = useCallback(() => {
@@ -26,8 +56,74 @@ export const SectionAssignments = () => {
         (s) => s.sectionNumber.toLowerCase() === sectionNumber.toLowerCase()
       )
     );
-  }, [sectionNumber]);
+    setCongIds(getCongregationIdsInSection(selectedDate, sectionNumber));
+  }, [sectionNumber, selectedDate]);
 
+  async function hashPassword(password: string): Promise<string> {
+    const encoder = new TextEncoder();
+    const data = encoder.encode(password);
+    const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+    return Array.from(new Uint8Array(hashBuffer))
+      .map((b) => b.toString(16).padStart(2, "0"))
+      .join("");
+  }
+
+  const handleLogin = async () => {
+    const hash = await hashPassword(password);
+    if (hash === PASSWORD_HASH) {
+      setAccessGranted(true);
+    } else {
+      alert("Incorrect password");
+    }
+  };
+
+  if (!accessGranted) {
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "1rem",
+          margin: "1rem",
+          flex: 1,
+        }}
+      >
+        <Typography variant="h4">Stadium Seating Team Access Only</Typography>
+
+        <Typography variant="h5">Please Enter Password to View Page</Typography>
+        <FormControl variant="outlined" fullWidth>
+          <InputLabel htmlFor="password">Password</InputLabel>
+          <OutlinedInput
+            id="password"
+            type={showPassword ? "text" : "password"}
+            value={password}
+            onChange={handleChange}
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  onClick={handleTogglePasswordVisibility}
+                  edge="end"
+                  aria-label="toggle password visibility"
+                >
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            }
+            label="Password"
+          />
+        </FormControl>
+        <Button
+          variant="contained"
+          color="primary"
+          fullWidth
+          sx={{ mt: 2 }}
+          onClick={handleLogin}
+        >
+          Submit
+        </Button>
+      </Box>
+    );
+  }
   return (
     <Box
       sx={{
@@ -108,18 +204,16 @@ export const SectionAssignments = () => {
           <Divider />
           {result ? (
             <SectionLayout
-              seats={[...result.seats].reverse()}
+              seats={seats}
               sectionNumber={result.sectionNumber}
               date={selectedDate}
               minRow={result.minRow}
               minSeat={result.minSeat}
               seatColors={seatColors}
             />
-            
           ) : (
             <Typography>Section not found or section not used.</Typography>
           )}
-        
         </Box>
       ) : null}
     </Box>

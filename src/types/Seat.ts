@@ -1,7 +1,8 @@
 export type SeatLocation = {
   section: string;
-  row: number;
-  seat: number;
+  row?: number;
+  seat?: number;
+  notes?: string;
 };
 
 export type SeatInfo = {
@@ -13,4 +14,5 @@ export type GroupInfo = {
   congregationId: string;
   congregationName: string;
   seats: SeatInfo[];
+  notes?:string;
 };

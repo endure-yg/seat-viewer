@@ -1,5 +1,6 @@
 import ChurchIcon from "@mui/icons-material/Church";
 import EventSeatIcon from "@mui/icons-material/EventSeat";
+import LockIcon from "@mui/icons-material/Lock";
 import HomeIcon from "@mui/icons-material/Home";
 import MenuIcon from "@mui/icons-material/Menu";
 import {
@@ -45,19 +46,19 @@ export const AppMenu = () => {
           </ListItemButton>
         </ListItem>
         <ListItem disablePadding>
-          <ListItemButton component={NavLink} to="/assignments" end>
-            <ListItemIcon>
-              <EventSeatIcon />
-            </ListItemIcon>
-            <ListItemText primary="Seat Assignments by Section" />
-          </ListItemButton>
-        </ListItem>
-        <ListItem disablePadding>
           <ListItemButton component={NavLink} to="/section" end>
             <ListItemIcon>
               <EventSeatIcon />
             </ListItemIcon>
             <ListItemText primary="Sections with Seat Types" />
+          </ListItemButton>
+        </ListItem>
+        <ListItem disablePadding>
+          <ListItemButton component={NavLink} to="/assignments" end>
+            <ListItemIcon>
+              <LockIcon />
+            </ListItemIcon>
+            <ListItemText primary="Admin Access" />
           </ListItemButton>
         </ListItem>
       </List>

@@ -3,7 +3,7 @@ import { Congregation } from "./Congregation";
 import { Homepage } from "./Homepage";
 import { NotFound } from "./NotFound";
 import { Section } from "./Section";
-import { SectionAssignments } from './SectionAssignments';
+import { SectionAssignments } from "./SectionAssignments";
 
 export const AppRouter = () => {
   return (

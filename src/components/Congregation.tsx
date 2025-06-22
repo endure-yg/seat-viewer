@@ -19,6 +19,7 @@ type Result = {
   congregationName: string;
   date: string;
   section: string;
+  notes?: string;
   seatsFormatted: string[];
 };
 
@@ -34,7 +35,7 @@ export const Congregation = () => {
     if (!congregationSeating) {
       setResults([]);
     } else {
-      const { seats = [], congregationName } = congregationSeating;
+      const { seats = [], congregationName, notes } = congregationSeating;
       const formattedSeatData: Result[] = [];
 
       seats.forEach(({ date, seats }) => {
@@ -44,25 +45,27 @@ export const Congregation = () => {
 
         seats.forEach(({ row, seat, section: seatSection }) => {
           section = seatSection; // assume same section per seatInfo
-          if (!rowMap.has(row)) {
+          if (row && !rowMap.has(row)) {
             rowMap.set(row, []);
           }
-          rowMap.get(row)!.push(seat);
+          if (row && seat) rowMap.get(row)!.push(seat);
         });
 
-        const seatsFormatted = Array.from(rowMap.entries()).map(
-          ([row, seatNumbers]) => {
-            const sorted = seatNumbers.sort((a, b) => a - b);
-            const range = `${sorted[0]}-${sorted[sorted.length - 1]}`;
-            return `Row ${row}, seats ${range}`;
-          }
-        );
+        const seatsFormatted =
+          section === "Open Seating" && seats[0]?.notes
+            ? [seats[0].notes]
+            : Array.from(rowMap.entries()).map(([row, seatNumbers]) => {
+                const sorted = seatNumbers.sort((a, b) => a - b);
+                const range = `${sorted[0]}-${sorted[sorted.length - 1]}`;
+                return `Row ${row}: Seats ${range}`;
+              });
 
         formattedSeatData.push({
           congregationName,
           date,
           section,
           seatsFormatted,
+          notes,
         });
       });
       setResults(formattedSeatData);
@@ -99,7 +102,10 @@ export const Congregation = () => {
               <Typography variant="h5">
                 {results[0].congregationName}
               </Typography>
-              <TableContainer component={Paper}>
+              {results[0].notes !== undefined && (
+                <Typography>Note: {results[0].notes}</Typography>
+              )}
+              <TableContainer component={Paper} sx={{ mb: "3rem" }}>
                 <Table aria-label="results table">
                   <TableHead>
                     <TableRow>
@@ -119,7 +125,10 @@ export const Congregation = () => {
                           {seat.date}
                         </TableCell>
                         <TableCell align="right">
-                          <strong> Section {seat.section} </strong>
+                          <strong>
+                            {seat.section !== "Open Seating" ? "Section " : ""}
+                            {seat.section}
+                          </strong>
                           {seat.seatsFormatted.map((s) => (
                             <div key={s}>{s}</div>
                           ))}

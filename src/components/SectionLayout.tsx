@@ -13,13 +13,13 @@ const seatColors: { [key: number]: string } = {
   2: "#4caf50", // Green - special seat 2
   3: "#ff9800", // Orange - special seat 3
   4: "#f44336", // Red - special seat 4
-  5: "#9c27b0", // Purple - special seat 5
+  5: "#DAB1DA",//"#9c27b0", // Purple - special seat 5
 };
 
 // Descriptions for special seat types
 const seatTypeLabels: { [key: number]: string } = {
   2: "ADA",
-  3: "ADA Retractable",
+  3: "ADA Retractable: Not Used",
   4: "Retractable",
   5: "Not Used During Wednesday Worship",
 };
@@ -33,9 +33,9 @@ export const SectionLayout = ({
   const columns = seats[0].length;
 
   return (
-    <Box display="flex" flexDirection="column" gap={1}>
+    <Box display="flex" flexDirection="column" gap={1} sx={{ mb: "3rem" }}>
       <Typography variant="h4">Section {sectionNumber}</Typography>
-     
+
       {seats.map((row, rowIndex) => (
         <Box key={rowIndex} display="flex" alignItems="center" gap={1}>
           <Typography width={20}>
